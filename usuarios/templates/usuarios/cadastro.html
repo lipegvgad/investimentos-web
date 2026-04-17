@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — InvestTrack</title>
+    <title>Cadastro — InvestTrack</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body class="login-page">
@@ -14,17 +14,11 @@
         <div class="login-brand">
             <div class="login-brand-icon">$</div>
             <h1>InvestTrack</h1>
-            <p>Controle de Investimentos Pessoais</p>
+            <p>Crie sua conta</p>
         </div>
 
         <form method="post">
             {% csrf_token %}
-
-            {% if form.non_field_errors %}
-            <div class="alert alert-error" style="margin-bottom: 16px;">
-                {% for error in form.non_field_errors %}{{ error }}{% endfor %}
-            </div>
-            {% endif %}
 
             {% for field in form %}
             <div class="form-group">
@@ -35,16 +29,19 @@
                     {% for error in field.errors %}<li>{{ error }}</li>{% endfor %}
                 </ul>
                 {% endif %}
+                {% if field.help_text %}
+                <p style="font-size:0.78rem; color:#718096; margin-top:4px;">{{ field.help_text }}</p>
+                {% endif %}
             </div>
             {% endfor %}
 
-            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;">
-                Entrar
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:8px;">
+                Criar conta
             </button>
         </form>
 
         <p style="text-align:center; margin-top:20px; font-size:0.875rem; color:#718096;">
-            Não tem conta? <a href="{% url 'usuarios:cadastro' %}" style="color:#1a1a2e; font-weight:600;">Criar conta</a>
+            Já tem conta? <a href="{% url 'usuarios:login' %}" style="color:#1a1a2e; font-weight:600;">Entrar</a>
         </p>
     </div>
 </div>
