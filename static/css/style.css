@@ -1,0 +1,539 @@
+/* =========================================================
+   InvestTrack — Folha de estilos principal
+   Sem JavaScript: toda interatividade via HTML/CSS puro
+   ========================================================= */
+
+/* --- Reset e base --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+.sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background: #1a1a2e;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.sidebar-brand {
+    padding: 24px 20px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #e2b714;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.brand-icon {
+    background: #e2b714;
+    color: #1a1a2e;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* Links de navegação */
+.sidebar-nav {
+    flex: 1;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.nav-item {
+    display: block;
+    padding: 10px 16px;
+    color: #a0aec0;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: background 0.15s, color 0.15s;
+}
+
+.nav-item:hover {
+    background: rgba(226, 183, 20, 0.1);
+    color: #e2b714;
+}
+
+.nav-item.active {
+    background: rgba(226, 183, 20, 0.15);
+    color: #e2b714;
+    font-weight: 600;
+}
+
+.nav-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin: 10px 0 6px;
+}
+
+.nav-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: #4a5568;
+    padding: 0 16px 4px;
+}
+
+/* Rodapé da sidebar: info do usuário + logout */
+.sidebar-footer {
+    padding: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.user-name {
+    color: #e2e8f0;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.user-badge {
+    background: #e2b714;
+    color: #1a1a2e;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.btn-logout {
+    width: 100%;
+    padding: 8px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #a0aec0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.15s, color 0.15s;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: #e2e8f0;
+}
+
+/* =========================================================
+   ÁREA PRINCIPAL
+   ========================================================= */
+
+.main-wrapper {
+    margin-left: 240px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    padding: 32px;
+    max-width: 1100px;
+    width: 100%;
+}
+
+/* =========================================================
+   MENSAGENS DE FEEDBACK (sucesso / erro)
+   ========================================================= */
+
+.messages-container {
+    padding: 16px 32px 0;
+}
+
+.alert {
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.alert-success {
+    background: #f0fff4;
+    color: #276749;
+    border-left: 4px solid #48bb78;
+}
+
+.alert-error {
+    background: #fff5f5;
+    color: #9b2c2c;
+    border-left: 4px solid #fc8181;
+}
+
+/* =========================================================
+   CABEÇALHO DE PÁGINA
+   ========================================================= */
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+/* =========================================================
+   BOTÕES
+   ========================================================= */
+
+.btn {
+    display: inline-block;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: background 0.15s, opacity 0.15s;
+}
+
+.btn-primary {
+    background: #1a1a2e;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #2d2d4e;
+}
+
+.btn-secondary {
+    background: #e2e8f0;
+    color: #4a5568;
+}
+
+.btn-secondary:hover {
+    background: #cbd5e0;
+}
+
+.btn-danger {
+    background: #e53e3e;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background: #c53030;
+}
+
+/* Botão menor para uso em tabelas */
+.btn-sm {
+    padding: 5px 12px;
+    font-size: 0.78rem;
+}
+
+/* =========================================================
+   TABELAS
+   ========================================================= */
+
+.table-container {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f7fafc;
+}
+
+th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #718096;
+    border-bottom: 1px solid #e2e8f0;
+    white-space: nowrap;
+}
+
+td {
+    padding: 13px 16px;
+    font-size: 0.875rem;
+    color: #2d3748;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover td {
+    background: #f7fafc;
+}
+
+.td-actions {
+    display: flex;
+    gap: 6px;
+}
+
+/* Linha de total no rodapé da tabela */
+.total-row td {
+    font-weight: 700;
+    background: #f7fafc;
+    border-top: 2px solid #e2e8f0;
+}
+
+/* Estado vazio */
+.empty-state {
+    padding: 48px 24px;
+    text-align: center;
+    color: #a0aec0;
+}
+
+.empty-state p {
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+}
+
+/* Destaque para valores monetários */
+.valor-badge {
+    font-weight: 600;
+    color: #276749;
+}
+
+/* =========================================================
+   FORMULÁRIOS
+   ========================================================= */
+
+.form-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+    padding: 32px;
+    max-width: 560px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #2d3748;
+    background: #fff;
+    transition: border-color 0.15s;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #1a1a2e;
+    box-shadow: 0 0 0 2px rgba(26, 26, 46, 0.08);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Erros de validação do Django */
+.errorlist {
+    list-style: none;
+    margin-top: 5px;
+}
+
+.errorlist li {
+    font-size: 0.8rem;
+    color: #e53e3e;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 22px 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+}
+
+.stat-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #718096;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.dashboard-section {
+    margin-bottom: 32px;
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 12px;
+}
+
+/* =========================================================
+   PÁGINA DE LOGIN
+   ========================================================= */
+
+body.login-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f2f5;
+}
+
+.login-wrapper {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.login-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-brand {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.login-brand-icon {
+    background: #1a1a2e;
+    color: #e2b714;
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin: 0 auto 14px;
+}
+
+.login-brand h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+}
+
+.login-brand p {
+    color: #718096;
+    font-size: 0.875rem;
+}
+
+/* =========================================================
+   CONFIRMAÇÃO DE EXCLUSÃO
+   ========================================================= */
+
+.confirm-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+    padding: 32px;
+    max-width: 480px;
+}
+
+.confirm-card h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #c53030;
+    margin-bottom: 12px;
+}
+
+.confirm-card p {
+    color: #4a5568;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}

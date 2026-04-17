@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Meus Ativos — InvestTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Meus Ativos</h1>
+    <a href="{% url 'aportes:ativo_create' %}" class="btn btn-primary">+ Novo Ativo</a>
+</div>
+
+{% if ativos %}
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Ticker</th>
+                <th>Tipo</th>
+                <th>Categoria</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ativo in ativos %}
+            <tr>
+                <td>{{ ativo.nome }}</td>
+                <td>{{ ativo.ticker|default:"—" }}</td>
+                <td>{{ ativo.get_tipo_display }}</td>
+                <td>{{ ativo.categoria }}</td>
+                <td>
+                    <div class="td-actions">
+                        <a href="{% url 'aportes:ativo_edit' ativo.pk %}" class="btn btn-secondary btn-sm">Editar</a>
+                        <a href="{% url 'aportes:ativo_delete' ativo.pk %}" class="btn btn-danger btn-sm">Deletar</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="table-container">
+    <div class="empty-state">
+        <p>Você ainda não possui ativos cadastrados.</p>
+        <a href="{% url 'aportes:ativo_create' %}" class="btn btn-primary">Cadastrar primeiro ativo</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

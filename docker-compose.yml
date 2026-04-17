@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  # Banco de dados PostgreSQL em produção
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: investimentos
+      POSTGRES_USER: invest_user
+      POSTGRES_PASSWORD: invest_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Aplicação Django servida pelo Gunicorn
+  web:
+    build: .
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DEBUG: "False"
+      SECRET_KEY: "troque-esta-chave-em-producao"
+      DATABASE_URL: "postgres://invest_user:invest_pass@db:5432/investimentos"
+      ALLOWED_HOSTS: "localhost,127.0.0.1"
+    # Aguarda o banco subir, aplica migrations e inicia o servidor
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py collectstatic --noinput &&
+             gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 2"
+
+volumes:
+  postgres_data:

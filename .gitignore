@@ -39,6 +39,8 @@ env/
 # Claude Code
 .claude/
 
+# Arquivos estáticos coletados (gerado pelo collectstatic)
+staticfiles/
+
 # PDF do enunciado
 Trab1_2026_1.pdf
-claude.md

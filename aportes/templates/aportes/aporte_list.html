@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Meus Aportes — InvestTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Meus Aportes</h1>
+    <a href="{% url 'aportes:aporte_create' %}" class="btn btn-primary">+ Novo Aporte</a>
+</div>
+
+{% if aportes %}
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Ativo</th>
+                <th>Categoria</th>
+                <th>Quantidade</th>
+                <th>Preço Unit.</th>
+                <th>Valor Total</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aporte in aportes %}
+            <tr>
+                <td>{{ aporte.data|date:"d/m/Y" }}</td>
+                <td>{{ aporte.ativo }}</td>
+                <td>{{ aporte.ativo.categoria }}</td>
+                <td>{{ aporte.quantidade }}</td>
+                <td>R$ {{ aporte.preco_unitario }}</td>
+                <td class="valor-badge">R$ {{ aporte.valor_total }}</td>
+                <td>
+                    <div class="td-actions">
+                        <a href="{% url 'aportes:aporte_edit' aporte.pk %}" class="btn btn-secondary btn-sm">Editar</a>
+                        <a href="{% url 'aportes:aporte_delete' aporte.pk %}" class="btn btn-danger btn-sm">Deletar</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td colspan="5">Total investido</td>
+                <td class="valor-badge">R$ {{ total }}</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+{% else %}
+<div class="table-container">
+    <div class="empty-state">
+        <p>Você ainda não possui aportes registrados.</p>
+        <a href="{% url 'aportes:aporte_create' %}" class="btn btn-primary">Registrar primeiro aporte</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

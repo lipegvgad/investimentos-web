@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard — InvestTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Dashboard Consolidado</h1>
+</div>
+
+<!-- Total geral -->
+<div class="dashboard-stats">
+    <div class="stat-card">
+        <div class="stat-label">Total Geral Investido</div>
+        <div class="stat-value">R$ {{ total_geral }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Usuários com Aportes</div>
+        <div class="stat-value">{{ por_usuario|length }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Ativos Diferentes</div>
+        <div class="stat-value">{{ por_ativo|length }}</div>
+    </div>
+</div>
+
+<!-- Total por usuário -->
+<div class="dashboard-section">
+    <h2 class="section-title">Total por Usuário</h2>
+    {% if por_usuario %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Usuário</th>
+                    <th>Total Investido</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in por_usuario %}
+                <tr>
+                    <td>{{ item.usuario__username }}</td>
+                    <td class="valor-badge">R$ {{ item.total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="table-container">
+        <div class="empty-state"><p>Nenhum aporte registrado.</p></div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Total por ativo -->
+<div class="dashboard-section">
+    <h2 class="section-title">Total por Ativo</h2>
+    {% if por_ativo %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Ativo</th>
+                    <th>Ticker</th>
+                    <th>Total Investido</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in por_ativo %}
+                <tr>
+                    <td>{{ item.ativo__nome }}</td>
+                    <td>{{ item.ativo__ticker|default:"—" }}</td>
+                    <td class="valor-badge">R$ {{ item.total }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="table-container">
+        <div class="empty-state"><p>Nenhum aporte registrado.</p></div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
