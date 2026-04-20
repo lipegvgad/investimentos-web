@@ -92,7 +92,7 @@ docker-compose exec web python manage.py createsuperuser
 
 ## Publicação
 
-A imagem Docker está disponível no Docker Hub:
+A imagem Docker está disponível no Docker Hub: https://hub.docker.com/r/lipegvgad/investtrack
 
 ```bash
 docker pull lipegvgad/investtrack
