@@ -25,7 +25,11 @@
 
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Salvar</button>
+            {% if cancel_pk %}
+            <a href="{% url cancel_url cancel_pk %}" class="btn btn-secondary">Cancelar</a>
+            {% else %}
             <a href="{% url 'aportes:ativo_list' %}" class="btn btn-secondary">Cancelar</a>
+            {% endif %}
         </div>
     </form>
 </div>

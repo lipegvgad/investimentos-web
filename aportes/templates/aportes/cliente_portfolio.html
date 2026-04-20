@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block title %}Portfólio de {{ cliente.username }} — InvestTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Portfólio — {{ cliente.username }}</h1>
+    <a href="{% url 'aportes:cliente_list' %}" class="btn btn-secondary">← Voltar</a>
+</div>
+
+{% if fatias %}
+<div class="chart-card">
+    <h2 class="chart-title">Distribuição por tipo de ativo</h2>
+    <div class="chart-body">
+        <svg viewBox="0 0 220 220" width="220" height="220">
+            {% for f in fatias %}
+            <path d="{{ f.path }}" fill="{{ f.cor }}" stroke="#fff" stroke-width="2"/>
+            {% endfor %}
+        </svg>
+        <ul class="chart-legend">
+            {% for f in fatias %}
+            <li class="legend-item">
+                <span class="legend-dot" style="background:{{ f.cor }};"></span>
+                <span class="legend-label">{{ f.label }}</span>
+                <span class="legend-pct">{{ f.pct|floatformat:1 }}%</span>
+                <span class="legend-val">R$ {{ f.total|floatformat:2 }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+
+<!-- Ativos -->
+<div class="section-header" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+    <h2 style="font-size:1rem; font-weight:700;">Ativos</h2>
+    <a href="{% url 'aportes:cliente_ativo_create' user_pk=cliente.pk %}" class="btn btn-primary btn-sm">+ Novo Ativo</a>
+</div>
+
+{% if ativos %}
+<div class="table-container" style="margin-bottom:32px;">
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Ticker</th>
+                <th>Tipo</th>
+                <th>Categoria</th>
+                <th>Preço Médio</th>
+                <th>Preço Atual</th>
+                <th>Variação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ativo in ativos %}
+            <tr>
+                <td>{{ ativo.nome }}</td>
+                <td>{{ ativo.ticker|default:"—" }}</td>
+                <td>{{ ativo.get_tipo_display }}</td>
+                <td>{{ ativo.categoria }}</td>
+                <td>{% if ativo.preco_medio %}R$ {{ ativo.preco_medio|floatformat:2 }}{% else %}—{% endif %}</td>
+                <td>{% if ativo.preco_atual %}R$ {{ ativo.preco_atual|floatformat:2 }}{% else %}—{% endif %}</td>
+                <td>
+                    {% if ativo.variacao is not None %}
+                        {% if ativo.variacao >= 0 %}
+                            <span style="color:#38a169; font-weight:600;">+{{ ativo.variacao|floatformat:2 }}%</span>
+                        {% else %}
+                            <span style="color:#e53e3e; font-weight:600;">{{ ativo.variacao|floatformat:2 }}%</span>
+                        {% endif %}
+                    {% else %}—{% endif %}
+                </td>
+                <td>
+                    <div class="td-actions">
+                        <a href="{% url 'aportes:cliente_ativo_edit' user_pk=cliente.pk pk=ativo.pk %}" class="btn btn-secondary btn-sm">Editar</a>
+                        <a href="{% url 'aportes:cliente_ativo_delete' user_pk=cliente.pk pk=ativo.pk %}" class="btn btn-danger btn-sm">Deletar</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="table-container" style="margin-bottom:32px;">
+    <div class="empty-state"><p>Nenhum ativo cadastrado para este cliente.</p></div>
+</div>
+{% endif %}
+
+<!-- Aportes -->
+<div class="section-header" style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+    <h2 style="font-size:1rem; font-weight:700;">Aportes</h2>
+    <a href="{% url 'aportes:cliente_aporte_create' user_pk=cliente.pk %}" class="btn btn-primary btn-sm">+ Novo Aporte</a>
+</div>
+
+{% if aportes %}
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Ativo</th>
+                <th>Categoria</th>
+                <th>Quantidade</th>
+                <th>Preço Unit.</th>
+                <th>Valor Total</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aporte in aportes %}
+            <tr>
+                <td>{{ aporte.data|date:"d/m/Y" }}</td>
+                <td>{{ aporte.ativo }}</td>
+                <td>{{ aporte.ativo.categoria }}</td>
+                <td>{{ aporte.quantidade }}</td>
+                <td>R$ {{ aporte.preco_unitario }}</td>
+                <td class="valor-badge">R$ {{ aporte.valor_total }}</td>
+                <td>
+                    <div class="td-actions">
+                        <a href="{% url 'aportes:cliente_aporte_edit' user_pk=cliente.pk pk=aporte.pk %}" class="btn btn-secondary btn-sm">Editar</a>
+                        <a href="{% url 'aportes:cliente_aporte_delete' user_pk=cliente.pk pk=aporte.pk %}" class="btn btn-danger btn-sm">Deletar</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td colspan="5">Total investido</td>
+                <td class="valor-badge">R$ {{ total }}</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+{% else %}
+<div class="table-container">
+    <div class="empty-state"><p>Nenhum aporte registrado para este cliente.</p></div>
+</div>
+{% endif %}
+{% endblock %}

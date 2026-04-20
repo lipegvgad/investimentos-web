@@ -17,16 +17,11 @@
     </div>
 
     <nav class="sidebar-nav">
-        <a href="{% url 'aportes:aporte_list' %}"
-           class="nav-item{% if 'aporte' in request.resolver_match.url_name %} active{% endif %}">
-            Meus Aportes
-        </a>
-        <a href="{% url 'aportes:ativo_list' %}"
-           class="nav-item{% if 'ativo' in request.resolver_match.url_name %} active{% endif %}">
-            Meus Ativos
-        </a>
-
         {% if user.is_staff %}
+        <a href="{% url 'aportes:cliente_list' %}"
+           class="nav-item{% if 'cliente' in request.resolver_match.url_name %} active{% endif %}">
+            Clientes
+        </a>
         <hr class="nav-divider">
         <span class="nav-label">Administração</span>
         <a href="{% url 'aportes:categoria_list' %}"
@@ -36,6 +31,15 @@
         <a href="{% url 'aportes:dashboard' %}"
            class="nav-item{% if request.resolver_match.url_name == 'dashboard' %} active{% endif %}">
             Dashboard
+        </a>
+        {% else %}
+        <a href="{% url 'aportes:aporte_list' %}"
+           class="nav-item{% if 'aporte' in request.resolver_match.url_name %} active{% endif %}">
+            Meus Aportes
+        </a>
+        <a href="{% url 'aportes:ativo_list' %}"
+           class="nav-item{% if 'ativo' in request.resolver_match.url_name %} active{% endif %}">
+            Meus Ativos
         </a>
         {% endif %}
     </nav>

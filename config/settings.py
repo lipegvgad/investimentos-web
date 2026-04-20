@@ -3,10 +3,8 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Lê a chave secreta do ambiente — obrigatório em produção
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-9b0dmu0=gfmx#xknrotsirz$hf&p8=c5dxea_07gm2x--7iw3=')
 
-# Em produção, definir DEBUG=False via variável de ambiente
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 _hosts_env = os.environ.get('ALLOWED_HOSTS', '')
@@ -19,7 +17,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # apps do projeto
     'core',
     'usuarios',
     'aportes',
@@ -27,7 +24,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # WhiteNoise serve arquivos estáticos diretamente pelo gunicorn em produção
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -42,7 +38,6 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # Pasta global de templates (base.html e outros compartilhados)
         'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -58,7 +53,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Banco de dados: SQLite em dev, PostgreSQL em produção (via DATABASE_URL)
 _db_url = os.environ.get('DATABASE_URL')
 if _db_url:
     import dj_database_url
@@ -83,20 +77,17 @@ TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
-# Arquivos estáticos
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Redirecionamentos de autenticação
 LOGIN_URL = '/usuarios/login/'
 LOGIN_REDIRECT_URL = '/aportes/'
 LOGOUT_REDIRECT_URL = '/usuarios/login/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email via Gmail SMTP — credenciais definidas por variáveis de ambiente
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

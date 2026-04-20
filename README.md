@@ -1,6 +1,6 @@
-# InvestTrack — Controle de Investimentos Pessoais
+# InvestTrack — Gestão de Portfólios de Investimentos
 
-Sistema web para registro e acompanhamento de aportes em investimentos pessoais, desenvolvido em Python/Django como trabalho da disciplina INF1407 - Programação para Web (PUC-Rio, 2026/1).
+Sistema web para gestão de portfólios de investimentos, desenvolvido em Python/Django como trabalho da disciplina INF1407 - Programação para Web (PUC-Rio, 2026/1).
 
 ## Componentes do grupo
 
@@ -10,17 +10,20 @@ Sistema web para registro e acompanhamento de aportes em investimentos pessoais,
 
 ## O que foi desenvolvido
 
-Site de controle de investimentos com dois perfis de acesso:
+O site simula uma plataforma de gestão de investimentos com dois perfis de acesso bem definidos:
 
-**Usuário comum** pode:
-- Cadastrar, editar, visualizar e excluir seus **ativos** (ações, FIIs, ETFs, criptomoedas etc.)
-- Registrar, editar, visualizar e excluir seus **aportes** (quantidade, preço unitário, data)
-- Ver o total investido na listagem de aportes
+**Gestor (administrador)** é o profissional responsável pelo portfólio dos clientes. Ele pode:
+- Ver a lista de todos os clientes cadastrados com o total investido de cada um
+- Acessar o portfólio completo de cada cliente
+- Cadastrar, editar e excluir ativos e aportes de qualquer cliente
+- Gerenciar as categorias de ativos disponíveis no sistema
+- Visualizar o dashboard consolidado com totais por cliente e por ativo
+
+**Cliente (usuário comum)** acessa o sistema apenas para acompanhar seu portfólio. Ele pode:
+- Ver seus aportes e o total investido
+- Ver seus ativos com o preço médio pago, preço atual (via API da B3) e variação percentual
+- Visualizar o gráfico de distribuição do portfólio por tipo de ativo
 - Criar conta, fazer login/logout e recuperar senha por e-mail
-
-**Administrador** pode tudo isso e mais:
-- Gerenciar **categorias** de ativos (CRUD exclusivo)
-- Acessar o **dashboard** com totais consolidados de todos os usuários
 
 ---
 
@@ -29,54 +32,61 @@ Site de controle de investimentos com dois perfis de acesso:
 ### Rodando com Docker
 
 ```bash
-# Clone o repositório
 git clone https://github.com/lipegvgad/investimentos-web.git
 cd investimentos-web
 
-# Crie o arquivo .env com as credenciais de e-mail (necessário para recuperação de senha)
+# Crie o arquivo .env com as credenciais
 echo "EMAIL_HOST_USER=seuemail@gmail.com" >> .env
 echo "EMAIL_HOST_PASSWORD=sua-senha-de-app-gmail" >> .env
+echo "BRAPI_TOKEN=seu-token-brapi" >> .env
 
-# Suba os containers
 docker-compose up --build
 ```
 
 Acesse em: **http://localhost:8000**
 
-### Criando o primeiro administrador
+### Criando o gestor
 
 ```bash
 docker-compose exec web python manage.py createsuperuser
 ```
 
-### Fluxo básico
+### Fluxo do gestor
+
+1. Faça login com a conta de gestor
+2. Acesse **Clientes** na barra lateral
+3. Clique em **Ver Portfólio** de um cliente
+4. Cadastre ativos e registre aportes para esse cliente
+
+### Fluxo do cliente
 
 1. Acesse `/usuarios/cadastro/` e crie uma conta
-2. Faça login em `/usuarios/login/`
-3. Vá em **Meus Ativos** e cadastre um ativo (ex: PETR4 — selecione uma categoria)
-4. Vá em **Meus Aportes** e registre um aporte para esse ativo
-5. O total investido aparece no rodapé da listagem
+2. Faça login — o gestor cadastrará os ativos e aportes para você
+3. Acompanhe seu portfólio em **Meus Aportes** e **Meus Ativos**
 
 ### Recuperação de senha
 
 1. Na tela de login, clique em **Esqueceu a senha?**
 2. Informe o e-mail cadastrado
-3. Acesse o link recebido no e-mail para redefinir a senha
+3. Acesse o link recebido no e-mail para criar uma nova senha
 
 ---
 
 ## O que funcionou
 
-- CRUD completo de aportes, ativos e categorias
-- Isolamento de dados por usuário (cada um vê apenas os próprios registros)
-- Separação de permissões admin vs. usuário comum
+- CRUD completo de aportes, ativos e categorias (operado pelo gestor)
+- Separação de perfis: gestor com acesso total, cliente somente leitura
+- Preço atual dos ativos em tempo real via API Brapi.dev (B3)
+- Cálculo de preço médio pago e variação percentual por ativo
+- Gráfico de distribuição do portfólio por tipo de ativo (SVG gerado pelo servidor, sem JavaScript)
+- Validação de ticker de ações e FIIs contra a API da B3 no momento do cadastro
 - Recuperação de senha via e-mail (Gmail SMTP com App Password)
 - Deploy com Docker + PostgreSQL + Gunicorn + WhiteNoise
-- Interface responsiva sem uso de JavaScript
+- Interface sem uso de JavaScript
 
 ## O que não funcionou
 
-- Não foi implementada a edição de perfil do usuário (alterar nome/e-mail pela interface do site)
+- Não foi implementada a edição de perfil do usuário (alterar nome ou e-mail pela interface do site)
 
 ---
 

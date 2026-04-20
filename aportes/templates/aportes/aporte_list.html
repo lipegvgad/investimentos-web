@@ -8,6 +8,29 @@
     <a href="{% url 'aportes:aporte_create' %}" class="btn btn-primary">+ Novo Aporte</a>
 </div>
 
+{% if fatias %}
+<div class="chart-card">
+    <h2 class="chart-title">Distribuição por tipo de ativo</h2>
+    <div class="chart-body">
+        <svg viewBox="0 0 220 220" width="220" height="220">
+            {% for f in fatias %}
+            <path d="{{ f.path }}" fill="{{ f.cor }}" stroke="#fff" stroke-width="2"/>
+            {% endfor %}
+        </svg>
+        <ul class="chart-legend">
+            {% for f in fatias %}
+            <li class="legend-item">
+                <span class="legend-dot" style="background:{{ f.cor }};"></span>
+                <span class="legend-label">{{ f.label }}</span>
+                <span class="legend-pct">{{ f.pct|floatformat:1 }}%</span>
+                <span class="legend-val">R$ {{ f.total|floatformat:2 }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+
 {% if aportes %}
 <div class="table-container">
     <table>

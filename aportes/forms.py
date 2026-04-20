@@ -1,6 +1,7 @@
 from django import forms
 from django.utils import timezone
 from .models import Categoria, Ativo, Aporte
+from .utils import buscar_preco
 
 
 class CategoriaForm(forms.ModelForm):
@@ -18,6 +19,17 @@ class AtivoForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['categoria'].queryset = Categoria.objects.all()
         self.fields['ticker'].required = False
+
+    def clean(self):
+        cleaned = super().clean()
+        ticker = cleaned.get('ticker')
+        tipo = cleaned.get('tipo')
+        # Valida o ticker contra a Brapi apenas para tipos negociados na B3
+        if ticker and tipo in ('acao', 'fii'):
+            preco = buscar_preco(ticker, tipo)
+            if preco is None:
+                self.add_error('ticker', f'Ticker "{ticker}" não encontrado na B3. Verifique se está correto.')
+        return cleaned
 
 
 class AporteForm(forms.ModelForm):

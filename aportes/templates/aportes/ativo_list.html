@@ -17,6 +17,9 @@
                 <th>Ticker</th>
                 <th>Tipo</th>
                 <th>Categoria</th>
+                <th>Preço Médio</th>
+                <th>Preço Atual</th>
+                <th>Variação</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -27,6 +30,31 @@
                 <td>{{ ativo.ticker|default:"—" }}</td>
                 <td>{{ ativo.get_tipo_display }}</td>
                 <td>{{ ativo.categoria }}</td>
+                <td>
+                    {% if ativo.preco_medio %}
+                        R$ {{ ativo.preco_medio|floatformat:2 }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+                <td>
+                    {% if ativo.preco_atual %}
+                        R$ {{ ativo.preco_atual|floatformat:2 }}
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+                <td>
+                    {% if ativo.variacao is not None %}
+                        {% if ativo.variacao >= 0 %}
+                            <span style="color:#38a169; font-weight:600;">+{{ ativo.variacao|floatformat:2 }}%</span>
+                        {% else %}
+                            <span style="color:#e53e3e; font-weight:600;">{{ ativo.variacao|floatformat:2 }}%</span>
+                        {% endif %}
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
                 <td>
                     <div class="td-actions">
                         <a href="{% url 'aportes:ativo_edit' ativo.pk %}" class="btn btn-secondary btn-sm">Editar</a>

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Clientes — InvestTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Clientes</h1>
+</div>
+
+{% if clientes %}
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Usuário</th>
+                <th>Total Investido</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.username }}</td>
+                <td class="valor-badge">R$ {{ cliente.total_investido|floatformat:2 }}</td>
+                <td>
+                    <a href="{% url 'aportes:cliente_portfolio' user_pk=cliente.pk %}" class="btn btn-primary btn-sm">
+                        Ver Portfólio
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="table-container">
+    <div class="empty-state">
+        <p>Nenhum cliente cadastrado ainda. Clientes são criados pelo cadastro público no site.</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
