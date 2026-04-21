@@ -35,15 +35,14 @@ O site simula uma plataforma de gestão de investimentos com dois perfis de aces
 git clone https://github.com/lipegvgad/investimentos-web.git
 cd investimentos-web
 
-# Crie o arquivo .env com as credenciais
-echo "EMAIL_HOST_USER=seuemail@gmail.com" >> .env
-echo "EMAIL_HOST_PASSWORD=sua-senha-de-app-gmail" >> .env
-echo "BRAPI_TOKEN=seu-token-brapi" >> .env
-
 docker-compose up --build
 ```
 
 Acesse em: **http://localhost:8000**
+
+> **Funcionalidades opcionais:** o site funciona completamente sem configuração extra. Duas funcionalidades dependem de credenciais externas:
+> - **Preços em tempo real** (Brapi.dev): crie um `.env` com `BRAPI_TOKEN=seu-token`. Sem ele, a coluna de preço atual exibe "—".
+> - **Recuperação de senha por e-mail** (Gmail): adicione `EMAIL_HOST_USER` e `EMAIL_HOST_PASSWORD` ao `.env`. Sem isso, o restante do site funciona normalmente.
 
 ### Criando o gestor
 
