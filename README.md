@@ -41,8 +41,8 @@ docker-compose up --build
 Acesse em: **http://localhost:8000**
 
 > **Funcionalidades opcionais:** o site funciona completamente sem configuração extra. Duas funcionalidades dependem de credenciais externas:
-> - **Preços em tempo real** (Brapi.dev): crie um `.env` com `BRAPI_TOKEN=seu-token`. Sem ele, a coluna de preço atual exibe "—".
-> - **Recuperação de senha por e-mail** (Gmail): adicione `EMAIL_HOST_USER` e `EMAIL_HOST_PASSWORD` ao `.env`. Sem isso, o restante do site funciona normalmente.
+> - **Preços em tempo real** (Brapi.dev): crie um `.env` com `BRAPI_TOKEN=seu-token`. Token gratuito disponível em [brapi.dev](https://brapi.dev). Sem ele, a coluna de preço atual exibe "—".
+> - **Recuperação de senha por e-mail**: adicione `EMAIL_HOST_USER=seuemail@gmail.com` e `EMAIL_HOST_PASSWORD=sua-senha-de-app` ao `.env`. A senha de app é gerada em [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) com qualquer conta Gmail. Sem isso, o restante do site funciona normalmente.
 
 ### Criando o gestor
 
